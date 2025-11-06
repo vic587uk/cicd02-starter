@@ -59,7 +59,7 @@ pipeline {
                         sh "ansible 127.0.0.1 -m template -a 'src=${WORKSPACE}/ansible/inventory_template.yml dest=${WORKSPACE}/ansible/inventory.gcp_compute.yml' -e 'project_id=${TF_VAR_gcp_project}'" 
                         sh '''
                         export GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_CLOUD_KEYFILE_JSON
-                        ansible-playbook -i inventory.gcp_compute.yml playbook.yml
+                        ansible-playbook -i inventory.gcp_compute.yml playbook.yml -e "repository_url=${REPOSITORY}"
                         '''
                     }
                 }

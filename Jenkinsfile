@@ -57,7 +57,10 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: "SSH_KEY", keyFileVariable: "ANSIBLE_PRIVATE_KEY_FILE"), file(credentialsId: 'gcp-svc-acct', variable: 'GOOGLE_CLOUD_KEYFILE_JSON')]) {
                         sh "export GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_CLOUD_KEYFILE_JSON"
                         sh "ansible 127.0.0.1 -m template -a 'src=${WORKSPACE}/ansible/inventory_template.yml dest=${WORKSPACE}/ansible/inventory.gcp_compute.yml' -e 'project_id=${TF_VAR_gcp_project}'" 
-                        sh 'ansible-playbook -i inventory.gcp_compute.yml playbook.yml'
+                        sh '''
+                        export GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_CLOUD_KEYFILE_JSON
+                        ansible-playbook -i inventory.gcp_compute.yml playbook.yml
+                        '''
                     }
                 }
             }

@@ -28,7 +28,7 @@ module "network" {
 }
 
 module "instance1" {
-  count = 2
+  count = 3
   source = "./instance"
   region = "europe-west1"
   subnet_name = module.network.subnet_name
@@ -47,5 +47,6 @@ module "instance2" {
   role = "proxy"
   pubkey_path = var.pubkey_path
 }
+
 
 
